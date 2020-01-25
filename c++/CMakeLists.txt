@@ -4,7 +4,8 @@
 # GNU General Public License version 3, see <http://www.gnu.org/licenses/>.
 #
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
+cmake_policy(VERSION 3.14)
 project(KMCLib)
 
 # -----------------------------------------------------------------------------
@@ -21,9 +22,8 @@ endif()
 # If it is, set use mpicxx.
 if(MPI)
   message( STATUS "== This is a parallel MPI build ==" )
-  # Force using the "mpicxx" compiler wrapper.
-  include(CMakeForceCompiler)
-  cmake_force_cxx_compiler(${MPI} "System CXX compiler with MPI wrapping")
+  # Use the "mpicxx" compiler wrapper.
+  set( CMAKE_CXX_COMPILER ${MPI} )
 
   # User verbosit as default when compiling in parallel.
   set( CMAKE_VERBOSE_MAKEFILE on )

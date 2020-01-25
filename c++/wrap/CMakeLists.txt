@@ -21,25 +21,25 @@ set(CMAKE_SWIG_FLAGS "")
 
 # Generate the custom.i wrapper file.
 message( STATUS "Generating custom.i" )
-file( WRITE ${KMCLib_SOURCE_DIR}/wrap/custom.i "// AUTO GENERATED FROM CAMKE - DO NOT EDIT MANUALLY"\n)
+file( WRITE ${KMCLib_SOURCE_DIR}/wrap/custom.i "// AUTO GENERATED FROM CAMKE - DO NOT EDIT MANUALLY" \n)
 file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include " \"std_vector.i\" \n)
 file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include " \"std_map.i\" \n)
 file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include " \"std_string.i\" \n)
 file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include " \"std_pair.i\" \n)
 file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include " \"ratecalculator.h\" \n)
-file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%module Custom"\n)
-file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%{"\n )
+file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%module Custom" \n)
+file( APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%{" \n )
 
 # Find out which files to include.
 file( GLOB CustomIncludes ../custom/*.h )
 
 # Include the files.
 foreach( FILE ${CustomIncludes})
-  file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "#include \""${FILE}\"\n)
+  file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "#include \"" ${FILE} \" \n)
 endforeach(FILE)
-file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%}"\n)
+file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%}" \n)
 foreach( FILE ${CustomIncludes})
-  file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include \""${FILE}\"\n)
+  file(APPEND ${KMCLib_SOURCE_DIR}/wrap/custom.i "%include \"" ${FILE} \" \n)
 endforeach(FILE)
 
 # Set the properties for the interface files.
@@ -57,7 +57,7 @@ add_definitions( -Wno-uninitialized )
 
 # For intel.
 if (USING_INTEL)
-   message( STATUS "Ignoring Intel SWIG warnings")
+  message( STATUS "Ignoring Intel SWIG warnings")
   add_definitions( -Wno-unused-but-set-variable )
 
 elseif (CMAKE_COMPILER_IS_GNUCXX)
@@ -77,8 +77,8 @@ endif()
 
 
 # Add the target.
-swig_add_module( Backend python backend.i )
-swig_add_module( Custom  python custom.i )
+swig_add_library( Backend LANGUAGE python SOURCES backend.i )
+swig_add_library( Custom LANGUAGE python SOURCES custom.i )
 
 
 # -----------------------------------------------------------------------------
